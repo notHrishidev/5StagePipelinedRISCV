@@ -14,7 +14,7 @@ module ALU (
             3'b100  :   Result = A ^ B;
             3'b101: begin         // SLT (Set Less Than) ie., A<B ?
                 if (A[31] != B[31]) begin
-                    if(A(31)) Result = 32'b1;
+                    if(A[31]) Result = 32'b1;
                     else      Result = 32'b0;
                 end
                 else begin
@@ -22,7 +22,7 @@ module ALU (
                     else        Result = 32'd0;
                 end
             end
-            default :
+            default :   Result = 32'd0;
         endcase
     end
     assign Zero = (Result == 32'b0) ? 1'b1 : 1'b0;
