@@ -24,33 +24,33 @@ module ALU_TB;
     // 3. The Test Script
     initial begin
         // Set up "Monitor" - runs in background and prints whenever signals change
-        $display("Time  | Op Code        |     A    |     B    |  Result  | Zero");
-        $display("------|----------------|----------|----------|----------|------");
+        $display("Time  | Op Code |     A    |     B    |  Result  | Zero");
+        $display("------|---------|----------|----------|----------|------");
         
         // --- TEST 1: ADDITION ---
         A = 32'd10; B = 32'd20; ALUControl = 3'b000; // ADD
         #10; // Wait 10 nanoseconds for result to stabilize
-        print_result("ADD");
+        $display("%4t | %s     | %h | %h | %h |  %b", $time, "ADD", A, B, Result, Zero);
 
         // --- TEST 2: SUBTRACTION (Result Zero) ---
         A = 32'd15; B = 32'd15; ALUControl = 3'b001; // SUB
         #10;
-        print_result("SUB"); // Expect Result = 0, Zero = 1
+        $display("%4t | %s     | %h | %h | %h |  %b", $time, "SUB", A, B, Result, Zero);
 
         // --- TEST 3: AND ---
         A = 32'hFFFF0000; B = 32'h0000FFFF; ALUControl = 3'b010; // AND
         #10;
-        print_result("AND"); // Expect 0
+        $display("%4t | %s     | %h | %h | %h |  %b", $time, "AND", A, B, Result, Zero);
 
         // --- TEST 4: OR ---
         A = 32'hFFFF0000; B = 32'h0000FFFF; ALUControl = 3'b011; // OR
         #10;
-        print_result("OR "); // Expect FFFFFFFF
+        $display("%4t | %s      | %h | %h | %h |  %b", $time, "OR", A, B, Result, Zero);
 
         // --- TEST 5: SLT (Simple Case) ---
         A = 32'd10; B = 32'd20; ALUControl = 3'b101; // SLT
         #10;
-        print_result("SLT"); // 10 < 20? Expect 1
+        $display("%4t | %s     | %h | %h | %h |  %b", $time, "SLT", A, B, Result, Zero);
 
         // --- TEST 6: SLT (The Signed Trap!) ---
         // Case: -1 vs 1
@@ -59,19 +59,10 @@ module ALU_TB;
         // If Signed:   -1 < 1       (Result 1).
         A = 32'hFFFFFFFF; B = 32'd1; ALUControl = 3'b101; // SLT
         #10;
-        print_result("SLT (-1 < 1)");
+        $display("%4t | %s     | %h | %h | %h |  %b", $time, "SLT", A, B, Result, Zero);
 
         // End Simulation
         $finish;
     end
-
-    // Helper task to print results cleanly
-    task print_result;
-        input [8*10:1] op_name; // String input
-        begin
-            $display("%4t | %s     | %h | %h | %h |  %b", 
-                     $time, op_name, A, B, Result, Zero);
-        end
-    endtask
 
 endmodule
