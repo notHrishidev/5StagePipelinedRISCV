@@ -25,7 +25,7 @@ module ALU_TB;
     initial begin
         // Set up "Monitor" - runs in background and prints whenever signals change
         $display("Time  | Op Code        |     A    |     B    |  Result  | Zero");
-        $display("------|----------------|----------|----------|----------|----------");
+        $display("------|----------------|----------|----------|----------|------");
         
         // --- TEST 1: ADDITION ---
         A = 32'd10; B = 32'd20; ALUControl = 3'b000; // ADD
