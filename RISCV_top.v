@@ -39,7 +39,7 @@ module RISCV_top (
 
     //Function signals for the ALUDecoder:
     reg [2:0] Funct3_E;
-    reg Funct7b5_e;
+    reg Funct7b5_E;
 
     // EX Calculation Signals
     wire [31:0] SrcA_E, SrcB_E, ALUResult_E, WriteData_E;
@@ -162,6 +162,8 @@ module RISCV_top (
     //_______ID/EX PIPELINE REGISTER_______
     
     always @(posedge clk or posedge reset) begin
+        Funct3_E <= Instr_D[14:12];
+        Funct7b5_E <= Instr_D[30];
         if (reset) begin
             RD1_E <= 32'b0;
             RD2_E <= 32'b0;
@@ -227,7 +229,7 @@ module RISCV_top (
     ALUDecoder ALUDec(
         .opb5(ALUOp_E[1]),
         .funct3(Funct3_E),
-        .funct7b5(Funct7b5_e),
+        .funct7b5(Funct7b5_E),
         .ALUOp(ALUOp_E),
         .ALUControl(ALUControl_E)
     );
@@ -240,7 +242,7 @@ module RISCV_top (
         .Zero(Zero_E)
     );
 
-    assign PCTarget_E = PC_E + ImmExt_E //Used for jump with offset
+    assign PCTarget_E = PC_E + ImmExt_E; //Used for jump with offset
 
     ForwardingUnit FU(
         .Raddr1_E(Raddr1_E),
@@ -268,7 +270,6 @@ module RISCV_top (
 
             ResultSrc_M <= 0;
 
-            ReadData_M <= 0;
         end
         else begin //just copy over everything from Execute stage to Memory stage.
             ALUResult_M <= ALUResult_E;
@@ -282,7 +283,6 @@ module RISCV_top (
 
             ResultSrc_M <= ResultSrc_E;
 
-            ReadData_M <= ReadData_E;
         end
     end
 
@@ -290,9 +290,9 @@ module RISCV_top (
 
     dmem DataMemory (
         .clk(clk),
-        .writeEn(MemWrite_M), // Changed from .we to .writeEn
+        .writeEn(MemWrite_M),
         .a(ALUResult_M),
-        .writeData(WriteData_M), // Changed from .wd to .writeData
+        .writeData(WriteData_M),
         .rd(ReadData_M)
     );
 
