@@ -5,7 +5,7 @@ module imem (
     reg [31:0] RAM [0:63];
 
     initial begin
-        $readmemh("C:\AAA_quickAccess\5StagePipelinedRISCV\program.hex", RAM);
+        $readmemh("program.hex", RAM);
     end
 
     assign inst = RAM[addr[31:2]];

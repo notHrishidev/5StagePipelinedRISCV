@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-
-module RISCV_top_tb;
+`include "RISCV_top.v"
+module RISCV_top_tb();
 
     // Inputs
     reg clk;

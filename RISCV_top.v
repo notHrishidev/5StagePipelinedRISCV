@@ -21,7 +21,8 @@ module RISCV_top (
 
     //ID Stage signals (Always end with _D)
     wire [31:0] Instr_D, PC_D, PCPlus4_D;
-    wire [31:0] RD1_D, RD2_D, ImmSrc_D;
+    wire [31:0] RD1_D, RD2_D;
+    wire [31:0] ImmExt_D;
     wire [4:0] Raddr1_D, Raddr2_D, Waddr_D;
 
     //Control Signals (I/D Stage)
@@ -122,7 +123,7 @@ module RISCV_top (
 
     mainDecoder MainDecoder (
         .op(Instr_D[6:0]),
-        .regWrite(RegWrite_D),
+        .RegWrite(RegWrite_D),
         .MemWrite(MemWrite_D),
         .ResultSrc(ResultSrc_D),
         .ALUSrc(ALUSrc_D),

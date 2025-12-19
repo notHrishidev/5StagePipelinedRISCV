@@ -9,8 +9,8 @@ module regfile (
     output  [31:0]  rd2
 );
     reg [31:0] rf [31:0];
-    assign rd1 = (Raddr1=5'b0) ? 32'b0 : rf[Raddr1];
-    assign rd2 = (Raddr2=5'b0) ? 32'b0 : rf[Raddr2];
+    assign rd1 = (Raddr1==5'b0) ? 32'b0 : rf[Raddr1];
+    assign rd2 = (Raddr2==5'b0) ? 32'b0 : rf[Raddr2];
     always @(posedge clk ) begin
         if(writeEn) begin
             rf[Waddr] <= writeData;
