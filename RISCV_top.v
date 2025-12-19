@@ -249,8 +249,8 @@ module RISCV_top (
         .Raddr2_E(Raddr2_E),
         .Waddr_M(Waddr_M),
         .RegWrite_M(RegWrite_M),
-        .Waddr_WB(Waddr_WB),
-        .RegWrite_WB(RegWrite_WB),
+        .Waddr_W(Waddr_W),
+        .RegWrite_W(RegWrite_W),
         .forwardA(ForwardA_E),
         .forwardB(ForwardB_E)
     );
@@ -299,24 +299,24 @@ module RISCV_top (
     //_______MEM/WB PIPELINE REGISTER_______
 
     always @(posedge clk or posedge reset) begin
-        ALUResult_W <= 0;
-        ReadData_W <= 0;
-        PCPlus4_W <= 0;
+        if (reset) begin
+            ALUResult_W <= 0;
+            ReadData_W <= 0;
+            PCPlus4_W <= 0;
 
-        Waddr_W <= 0;
-        RegWrite_W <= 0;
-        ResultSrc_W <= 0;
-        Result_W <= 0;
-    end
-    else begin
-        ALUResult_W <= ALUResult_M;
-        ReadData_W <= ReadData_M;
-        PCPlus4_W <= PCPlus4_M;
+            Waddr_W <= 0;
+            RegWrite_W <= 0;
+            ResultSrc_W <= 0;
+        end
+        else begin
+            ALUResult_W <= ALUResult_M;
+            ReadData_W <= ReadData_M;
+            PCPlus4_W <= PCPlus4_M;
 
-        Waddr_W <= Waddr_M;
-        RegWrite_W <= RegWrite_M;
-        ResultSrc_W <= ResultSrc_M;
-        Result_W <= Result_M;
+            Waddr_W <= Waddr_M;
+            RegWrite_W <= RegWrite_M;
+            ResultSrc_W <= ResultSrc_M;
+        end
     end
 
     //_______WRITE BACK STAGE_______
