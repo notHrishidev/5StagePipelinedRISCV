@@ -1,12 +1,12 @@
 module ForwardingUnit (
-    input [4:0] Raddr1_e,
-    input [4:0] Raddr2_e,
+    input [4:0] Raddr1_E,
+    input [4:0] Raddr2_E,
 
-    input [4:0] Waddr_m,
-    input RegWrite_m,
+    input [4:0] Waddr_M,
+    input RegWrite_M,
 
-    input [4:0] Waddr_wb,
-    input RegWrite_wb,
+    input [4:0] Waddr_WB,
+    input RegWrite_WB,
 
     output reg [1:0] forwardA,
     output reg [1:0] forwardB

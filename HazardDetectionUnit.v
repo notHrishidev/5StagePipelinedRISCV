@@ -1,8 +1,8 @@
 module HazardDetectionUnit (
-    input [4:0] Raddr1_d,
-    input [4:0] Raddr2_d,
+    input [4:0] Raddr1_D,
+    input [4:0] Raddr2_D,
 
-    input [4:0] Waddr_e,
+    input [4:0] Waddr_E,
     input ResultSrcb0, //0 bit of ResultSrc; 1=LoadInstruction, 0=DwondWorry
 
     output reg PCWrite, //Control the PC; stop when required
@@ -13,7 +13,7 @@ module HazardDetectionUnit (
 
     always @(*) begin
         // Default: EVERYTHING RUNS NORMALLY
-        pc_write     = 1'b1;  // Keep updating PC
+        PCWrite     = 1'b1;  // Keep updating PC
         if_id_write  = 1'b1;  // Keep updating IF/ID Reg
         stall_bubble = 1'b0;  // Don't insert bubble
 
@@ -24,7 +24,7 @@ module HazardDetectionUnit (
         if (is_load_instruction && (rd_e != 0) && ((rd_e == rs1_d) || (rd_e == rs2_d))) begin
             
             // EMERGENCY STOP
-            pc_write     = 1'b0; // Freeze the PC (Fetch same instr again)
+            PCWrite     = 1'b0; // Freeze the PC (Fetch same instr again)
             if_id_write  = 1'b0; // Freeze the IF/ID Reg (Decode same instr again)
             stall_bubble = 1'b1; // Send 0s to ID/EX (Turn next stage into NOP)
         end
