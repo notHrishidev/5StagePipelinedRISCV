@@ -117,8 +117,8 @@ module RISCV_top (
 
     //_______DECODE STAGE_______
 
-    assign RD1_D = Instr_D[19:15];
-    assign RD2_D = Instr_D[24:20];
+    assign Raddr1_D = Instr_D[19:15];
+    assign Raddr2_D = Instr_D[24:20];
     assign Waddr_D = Instr_D[11:7]; //Standard format for RISC V
 
     mainDecoder MainDecoder (

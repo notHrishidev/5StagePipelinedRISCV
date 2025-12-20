@@ -2,7 +2,7 @@ module imem (
     input   [31:0]  addr,
     output  [31:0]  inst
 );
-    reg [31:0] RAM [0:63];
+    reg [31:0] RAM [0:5];
 
     initial begin
         $readmemh("program.hex", RAM);
